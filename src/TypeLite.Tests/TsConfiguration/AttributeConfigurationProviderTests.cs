@@ -7,14 +7,14 @@ using TypeLite.TsConfiguration;
 using Xunit;
 
 namespace TypeLite.Tests.TsConfiguration {
-    public class AttributeConfigurationReaderTests {
-        AttributeConfigurationReader _reader = new AttributeConfigurationReader();
+    public class AttributeConfigurationProviderTests {
+        AttributeConfigurationProvider _provider = new AttributeConfigurationProvider();
 
         #region Enum
 
         [Fact]
         public void WhenReadOnEnumWithAttribute_EnumConfigurationIsReturned() {
-            var configuration = _reader.Read(typeof(EnumWithAttribute));
+            var configuration = _provider.GetConfiguration(typeof(EnumWithAttribute));
 
             Assert.NotNull(configuration);
             Assert.IsType<TsEnumConfiguration>(configuration);
@@ -26,7 +26,7 @@ namespace TypeLite.Tests.TsConfiguration {
 
         [Fact]
         public void WhenReadOnEnumWithoutAttribute_NullIsReturned() {
-            var configuration = _reader.Read(typeof(EnumWithoutAttribute));
+            var configuration = _provider.GetConfiguration(typeof(EnumWithoutAttribute));
 
             Assert.Null(configuration);
         }
@@ -40,7 +40,7 @@ namespace TypeLite.Tests.TsConfiguration {
             var enumTypeInfo = typeof(EnumWithAttribute).GetTypeInfo();
             var enumValueField = enumTypeInfo.GetField(nameof(EnumWithAttribute.EnumValueWithAttribute));
 
-            var configuration = _reader.ReadEnumValueConfig(enumValueField);
+            var configuration = _provider.GetEnumValueConfiguration(enumValueField);
 
             Assert.NotNull(configuration);
             Assert.IsType<TsEnumValueConfiguration>(configuration);
@@ -55,7 +55,7 @@ namespace TypeLite.Tests.TsConfiguration {
             var enumTypeInfo = typeof(EnumWithAttribute).GetTypeInfo();
             var enumValueField = enumTypeInfo.GetField(nameof(EnumWithAttribute.EnumValue1));
 
-            var configuration = _reader.ReadEnumValueConfig(enumValueField);
+            var configuration = _provider.GetEnumValueConfiguration(enumValueField);
 
 
             Assert.Null(configuration);

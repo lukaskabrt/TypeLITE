@@ -8,13 +8,13 @@ namespace TypeLite.TsConfiguration {
     /// <summary>
     /// Reads configuration for a type from attributes
     /// </summary>
-    public class AttributeConfigurationReader : ITsConfigurationReader {
+    public class AttributeConfigurationProvider : ITsConfigurationProvider {
         /// <summary>
         /// Reads configuration for the specific type
         /// </summary>
         /// <param name="t">the type to read configuration for</param>
         /// <returns>the configuration read from attributes or null if there aren't any configuration attributes for the type</returns>
-        public virtual TsNodeConfiguration Read(Type t) {
+        public virtual TsNodeConfiguration GetConfiguration(Type t) {
             var typeInfo = t.GetTypeInfo();
 
             if(typeInfo.IsEnum) {
@@ -23,7 +23,7 @@ namespace TypeLite.TsConfiguration {
             throw new NotImplementedException();
         }
 
-        public TsEnumValueConfiguration ReadEnumValueConfig(FieldInfo enumValue) {
+        public TsEnumValueConfiguration GetEnumValueConfiguration(FieldInfo enumValue) {
             var attribute = enumValue.GetCustomAttribute<TsEnumValueAttribute>();
 
             if (attribute == null) {
