@@ -14,13 +14,13 @@ namespace TypeLite.TsConfiguration {
         }
 
         public TsNodeConfiguration GetConfiguration(Type t) {
-            var conventions = this.Conventions.Where(o => o as IEnumConvention != null);
-            var configurations = conventions.OfType<IEnumConvention>().Select(o => o.Apply(t)).ToList();
-            return TsNodeConfiguration.Merge<TsEnumConfiguration>(configurations);
+            var configurations = this.Conventions.OfType<IModuleMemberConvention>().Select(o => o.Apply(t)).ToList();
+            return TsNodeConfiguration.Merge(configurations);
         }
 
         public TsEnumValueConfiguration GetEnumValueConfiguration(FieldInfo enumValue) {
-            throw new NotImplementedException();
+            var configurations = this.Conventions.OfType<IEnumValueConvention>().Select(o => o.Apply(enumValue)).ToList();
+            return TsNodeConfiguration.Merge(configurations);
         }
     }
 }

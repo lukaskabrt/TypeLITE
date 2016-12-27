@@ -6,7 +6,7 @@ namespace TypeLite.TsConfiguration {
     /// <summary>
     /// Configuration of TypeResolver for enum
     /// </summary>
-    public class TsEnumConfiguration : TsNodeConfiguration {
+    public class TsModuleMemberConfiguration : TsNodeConfiguration {
         /// <summary>
         /// Gets or sets the name of the enum in the script model.
         /// </summary>

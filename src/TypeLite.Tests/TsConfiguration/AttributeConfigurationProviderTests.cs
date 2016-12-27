@@ -17,9 +17,9 @@ namespace TypeLite.Tests.TsConfiguration {
             var configuration = _provider.GetConfiguration(typeof(EnumWithAttribute));
 
             Assert.NotNull(configuration);
-            Assert.IsType<TsEnumConfiguration>(configuration);
+            Assert.IsType<TsModuleMemberConfiguration>(configuration);
 
-            var enumConfiguration = (TsEnumConfiguration)configuration;
+            var enumConfiguration = (TsModuleMemberConfiguration)configuration;
             Assert.Equal("EnumWithAttributeName", enumConfiguration.Name);
             Assert.Equal("EnumWithAttributeModule", enumConfiguration.Module);
         }

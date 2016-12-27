@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace TypeLite.TsConfiguration {
@@ -7,7 +8,11 @@ namespace TypeLite.TsConfiguration {
 
     }
 
-    public interface IEnumConvention : IConvention {
-        TsEnumConfiguration Apply(Type t);
+    public interface IModuleMemberConvention : IConvention {
+        TsModuleMemberConfiguration Apply(Type t);
+    }
+
+    public interface IEnumValueConvention : IConvention {
+        TsEnumValueConfiguration Apply(FieldInfo enumValue);
     }
 }

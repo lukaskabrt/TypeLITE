@@ -36,14 +36,14 @@ namespace TypeLite.TsConfiguration {
             };
         }
 
-        protected virtual TsEnumConfiguration ReadEnumConfiguration(Type t, TypeInfo typeInfo) {
+        protected virtual TsModuleMemberConfiguration ReadEnumConfiguration(Type t, TypeInfo typeInfo) {
             var attribute = typeInfo.GetCustomAttribute<TsEnumAttribute>(false);
 
             if(attribute == null) {
                 return null;
             }
 
-            return new TsEnumConfiguration() {
+            return new TsModuleMemberConfiguration() {
                 Name = attribute.Name,
                 Module = attribute.Module
             };

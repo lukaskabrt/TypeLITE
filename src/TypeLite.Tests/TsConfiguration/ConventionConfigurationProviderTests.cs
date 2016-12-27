@@ -29,7 +29,7 @@ namespace TypeLite.Tests.TsConfiguration {
             var provider = new ConventionConfigurationProvider();
             provider.Conventions.Add(new NameFromReflectionConvention());
 
-            var configuration = (TsEnumConfiguration)provider.GetConfiguration(typeof(EnumWithAttribute));
+            var configuration = (TsModuleMemberConfiguration)provider.GetConfiguration(typeof(EnumWithAttribute));
 
             Assert.Equal(nameof(EnumWithAttribute), configuration.Name);
             Assert.Null(configuration.Module);
@@ -41,7 +41,7 @@ namespace TypeLite.Tests.TsConfiguration {
             provider.Conventions.Add(new NameFromReflectionConvention());
             provider.Conventions.Add(new ModuleFromReflectionConvention());
 
-            var configuration = (TsEnumConfiguration)provider.GetConfiguration(typeof(EnumWithAttribute));
+            var configuration = (TsModuleMemberConfiguration)provider.GetConfiguration(typeof(EnumWithAttribute));
 
             Assert.Equal(nameof(EnumWithAttribute), configuration.Name);
             Assert.Equal("TypeLite.Tests.Models", configuration.Module);
@@ -53,14 +53,14 @@ namespace TypeLite.Tests.TsConfiguration {
             provider.Conventions.Add(new NameFromReflectionConvention());
             provider.Conventions.Add(new TestNameConvention());
 
-            var configuration = (TsEnumConfiguration)provider.GetConfiguration(typeof(EnumWithAttribute));
+            var configuration = (TsModuleMemberConfiguration)provider.GetConfiguration(typeof(EnumWithAttribute));
 
             Assert.Equal("Test", configuration.Name);
-            }
+        }
 
-        private class TestNameConvention : IEnumConvention {
-            public TsEnumConfiguration Apply(Type t) {
-                return new TsEnumConfiguration() { Name = "Test" };
+        private class TestNameConvention : IModuleMemberConvention {
+            public TsModuleMemberConfiguration Apply(Type t) {
+                return new TsModuleMemberConfiguration() { Name = "Test" };
             }
         }
     }

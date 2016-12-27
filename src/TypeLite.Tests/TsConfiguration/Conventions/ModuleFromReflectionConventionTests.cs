@@ -15,5 +15,17 @@ namespace TypeLite.Tests.TsConfiguration.Conventions {
 
             Assert.Equal("TypeLite.Tests.Models", configuration.Module);
         }
+
+        [Fact]
+        public void WhenApplyOnEnumDefinedInsideClass_NamespaceAndClassNameIsReturned() {
+            var configuration = _convention.Apply(typeof(EnclosingClass.EnumInsideClass));
+            Assert.Equal("TypeLite.Tests.Models.EnclosingClass", configuration.Module);
+        }
+
+        [Fact]
+        public void WhenApplyOnEnumDefinedInsideRecrusivellyNestedClass_NamespaceAndClassesNameIsReturned() {
+            var configuration = _convention.Apply(typeof(EnclosingClass.EnclosingClassInEnclosingClass.EnumInsideClassInsideClass));
+            Assert.Equal("TypeLite.Tests.Models.EnclosingClass.EnclosingClassInEnclosingClass", configuration.Module);
+        }
     }
 }
