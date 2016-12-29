@@ -7,9 +7,6 @@ namespace TypeLite.Ts {
     /// Represents a type in TypeLite AST
     /// </summary>
     public class TsType : TsNode {
-        /// <summary>
-        /// Gets name of the type
-        /// </summary>
-        public string TypeName { get; set; }
+        public Type Context { get; set; }
     }
 }
