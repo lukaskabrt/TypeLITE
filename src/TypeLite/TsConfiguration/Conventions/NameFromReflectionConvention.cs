@@ -5,7 +5,12 @@ using System.Text;
 namespace TypeLite.TsConfiguration.Conventions {
     public class NameFromReflectionConvention : IModuleMemberConvention {
         public TsModuleMemberConfiguration Apply(Type t) {
-            return new TsModuleMemberConfiguration() { Name = t.Name };
+            var typeName = t.Name;
+            if(typeName.Contains("`")) {
+                typeName = typeName.Remove(typeName.IndexOf('`'));
+            }
+
+            return new TsModuleMemberConfiguration() { Name = typeName };
         }
     }
 }

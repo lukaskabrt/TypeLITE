@@ -1,16 +1,20 @@
-﻿using System;
+﻿using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TypeLite.Ts;
+using TypeLite.TsConfiguration;
 using Xunit;
 
 namespace TypeLite.Tests {
     public class TypeResolverTests {
         TypeResolver _resolver;
+        Mock<ITsConfigurationProvider> _configurationProviderMock;
 
         public TypeResolverTests() {
-            _resolver = new TypeResolver();
+            _configurationProviderMock = new Mock<ITsConfigurationProvider>();
+            _resolver = new TypeResolver(_configurationProviderMock.Object);
         }
 
         [Fact]
@@ -75,6 +79,19 @@ namespace TypeLite.Tests {
             Assert.Equal(collectionType, resolved.Context);
         }
 
+        [Fact]
+        public void WhenResolveNestedTypedCollection_ItemTypeIsSetToTypeOfCollectionItem() {
+            var collectionType = typeof(IEnumerable<IEnumerable<int>>);
+            var itemType = typeof(IEnumerable<int>);
+
+            var resolved = _resolver.ResolveType(collectionType) as TsCollectionType;
+            var resolvedItemType = resolved.ItemType as TsCollectionType;
+
+            Assert.NotNull(resolvedItemType);
+            Assert.Equal(resolvedItemType.Context, itemType);
+            Assert.Equal(resolvedItemType.ItemType.Context, typeof(int));
+        }
+
         [Theory]
         [InlineData(typeof(System.Collections.IEnumerable))]
         [InlineData(typeof(Array))]
@@ -84,6 +101,37 @@ namespace TypeLite.Tests {
             Assert.NotNull(resolved);
             Assert.Same(TsBasicType.Any, resolved.ItemType);
             Assert.Equal(collectionType, resolved.Context);
+        }
+
+        #endregion
+
+        #region Generic tests
+
+        [Fact]
+        public void WhenResolveGenericClass_DataFromConfigurationProviderIsUsed() {
+            this.ArrangeKeyValuePairConfiguration();
+
+            var resolved = _resolver.ResolveType(typeof(KeyValuePair<string, int>)) as TsBasicType;
+
+            Assert.Equal("KeyValuePair", resolved.TypeName);
+            Assert.Equal("TypeLite.Tests", resolved.Module);
+        }
+
+        [Fact]
+        public void WhenResolveGenericClass_GenericParametersAreResolved() {
+            this.ArrangeKeyValuePairConfiguration();
+
+            var resolved = _resolver.ResolveType(typeof(KeyValuePair<string, int>)) as TsBasicType;
+
+            Assert.Equal(typeof(string), resolved.GenericArguments[0].Context);
+            Assert.Equal(typeof(int), resolved.GenericArguments[1].Context);
+        }
+
+        private void ArrangeKeyValuePairConfiguration() {
+            var typeConfiguration = new TsModuleMemberConfiguration() { Name = "KeyValuePair", Module = "TypeLite.Tests" };
+            _configurationProviderMock
+                .Setup(o => o.GetConfiguration(It.Is<Type>(t => t == typeof(KeyValuePair<string, int>))))
+                .Returns(typeConfiguration);
         }
 
         #endregion

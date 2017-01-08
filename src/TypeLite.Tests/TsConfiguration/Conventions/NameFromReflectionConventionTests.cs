@@ -15,5 +15,12 @@ namespace TypeLite.Tests.TsConfiguration.Conventions {
 
             Assert.Equal(nameof(EnumWithAttribute), configuration.Name);
         }
+
+        [Fact]
+        public void WhenApplyOnGenericClass_SimpleNameOfClassIsReturned() {
+            var configuration = _convention.Apply(typeof(KeyValuePair<string, int>));
+
+            Assert.Equal(nameof(KeyValuePair<string, int>), configuration.Name);
+        }
     }
 }
