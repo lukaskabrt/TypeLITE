@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using TypeLite.Tests.Models;
 using TypeLite.Ts;
 using TypeLite.TsConfiguration;
 using Xunit;
@@ -105,21 +107,53 @@ namespace TypeLite.Tests {
 
         #endregion
 
+        #region Class tests
+
+        [Fact]
+        public void WhenResolveClass_DataFromConfigurationProviderIsUsed() {
+            this.ArrangeConfigurationForType(typeof(ClassWithoutAttribute));
+
+            var resolved = _resolver.ResolveType(typeof(ClassWithoutAttribute)) as TsBasicType;
+
+            Assert.Equal("ClassWithoutAttribute", resolved.TypeName);
+            Assert.Equal("TypeLite.Tests.Models", resolved.Module);
+        }
+
+        #endregion
+
+        #region Struct tests
+
+        [Fact]
+        public void WhenResolveStruct_DataFromConfigurationProviderIsUsed() {
+            this.ArrangeConfigurationForType(typeof(StructWithoutAttribute));
+
+            var resolved = _resolver.ResolveType(typeof(StructWithoutAttribute)) as TsBasicType;
+
+            Assert.Equal("StructWithoutAttribute", resolved.TypeName);
+            Assert.Equal("TypeLite.Tests.Models", resolved.Module);
+        }
+
+        #endregion
+
+        #region Interface tests
+
+        [Fact]
+        public void WhenResolveInterface_DataFromConfigurationProviderIsUsed() {
+            this.ArrangeConfigurationForType(typeof(IInterfaceWithoutAttribute));
+
+            var resolved = _resolver.ResolveType(typeof(IInterfaceWithoutAttribute)) as TsBasicType;
+
+            Assert.Equal("IInterfaceWithoutAttribute", resolved.TypeName);
+            Assert.Equal("TypeLite.Tests.Models", resolved.Module);
+        }
+
+        #endregion
+
         #region Generic tests
 
         [Fact]
-        public void WhenResolveGenericClass_DataFromConfigurationProviderIsUsed() {
-            this.ArrangeKeyValuePairConfiguration();
-
-            var resolved = _resolver.ResolveType(typeof(KeyValuePair<string, int>)) as TsBasicType;
-
-            Assert.Equal("KeyValuePair", resolved.TypeName);
-            Assert.Equal("TypeLite.Tests", resolved.Module);
-        }
-
-        [Fact]
-        public void WhenResolveGenericClass_GenericParametersAreResolved() {
-            this.ArrangeKeyValuePairConfiguration();
+        public void WhenResolveGenericType_GenericArgumentsAreResolved() {
+            this.ArrangeConfigurationForType(typeof(KeyValuePair<string, int>));
 
             var resolved = _resolver.ResolveType(typeof(KeyValuePair<string, int>)) as TsBasicType;
 
@@ -127,13 +161,52 @@ namespace TypeLite.Tests {
             Assert.Equal(typeof(int), resolved.GenericArguments[1].Context);
         }
 
-        private void ArrangeKeyValuePairConfiguration() {
-            var typeConfiguration = new TsModuleMemberConfiguration() { Name = "KeyValuePair", Module = "TypeLite.Tests" };
-            _configurationProviderMock
-                .Setup(o => o.GetConfiguration(It.Is<Type>(t => t == typeof(KeyValuePair<string, int>))))
-                .Returns(typeConfiguration);
+        [Fact]
+        public void WhenResolveOpenGenericType_GenericParametersAreResolved() {
+            this.ArrangeConfigurationForType(typeof(GenericClass<>));
+
+            var genericClassInfo = typeof(GenericClass<>).GetTypeInfo();
+            this.ArrangeConfigurationForType(genericClassInfo.GenericTypeParameters[0]);
+
+            var resolved = _resolver.ResolveType(typeof(GenericClass<>)) as TsBasicType;
+
+            Assert.Equal(genericClassInfo.GenericTypeParameters[0], resolved.GenericArguments[0].Context);
+        }
+
+        [Fact]
+        public void WhenResolveOpenGenericTypesWithSameParametrNames_GenericParametersAreResolvedToDifferentTypes() {
+            this.ArrangeConfigurationForType(typeof(GenericClass<>));
+            this.ArrangeConfigurationForType(typeof(GenericClassWithAttribute<>));
+
+            var genericClassInfo = typeof(GenericClass<>).GetTypeInfo();
+            this.ArrangeConfigurationForType(genericClassInfo.GenericTypeParameters[0]);
+
+            var genericClassInfo2 = typeof(GenericClassWithAttribute<>).GetTypeInfo();
+            this.ArrangeConfigurationForType(genericClassInfo2.GenericTypeParameters[0]);
+
+            var resolved = _resolver.ResolveType(typeof(GenericClass<>)) as TsBasicType;
+            var resolved2 = _resolver.ResolveType(typeof(GenericClassWithAttribute<>)) as TsBasicType;
+
+            Assert.NotSame(resolved.GenericArguments[0], resolved2.GenericArguments[0]);
         }
 
         #endregion
+
+        [Fact]
+        public void WhenResolveClassMultipleTimes_SameTypeIsReturned() {
+            this.ArrangeConfigurationForType(typeof(ClassWithoutAttribute));
+
+            var resolved = _resolver.ResolveType(typeof(ClassWithoutAttribute)) as TsBasicType;
+            var resolved2 = _resolver.ResolveType(typeof(ClassWithoutAttribute)) as TsBasicType;
+
+            Assert.Same(resolved, resolved2);
+        }
+
+        private void ArrangeConfigurationForType(Type type) {
+            var typeConfiguration = new TsModuleMemberConfiguration() { Name = type.Name, Module = "TypeLite.Tests.Models" };
+            _configurationProviderMock
+                .Setup(o => o.GetConfiguration(It.Is<Type>(t => t == type)))
+                .Returns(typeConfiguration);
+        }
     }
 }

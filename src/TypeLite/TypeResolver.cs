@@ -19,39 +19,53 @@ namespace TypeLite {
             }
         }
 
-        public TsType ResolveType(Type t) {
-            if(_knownTypes.ContainsKey(t)) {
+        public virtual TsType ResolveType(Type t) {
+            if (_knownTypes.ContainsKey(t)) {
                 return _knownTypes[t];
             }
 
             var typeInfo = t.GetTypeInfo();
             var typeConfiguration = _configurationProvider.GetConfiguration(t) as TsModuleMemberConfiguration;
 
-            if(t.IsNullable()) {
+            if (t.IsNullable()) {
                 return this.ResolveType(t.GetNullableValueType());
             }
 
-            if(t.IsCollection()) {
+            if (t.IsCollection()) {
                 var collectionItemType = t.GetCollectionItemType();
-                if(collectionItemType == null) {
-                    return new TsCollectionType() { ItemType = TsBasicType.Any, Context = t };
+                if (collectionItemType == null) {
+                    return this.CacheAndReturn(t, new TsCollectionType() { ItemType = TsBasicType.Any, Context = t });
                 } else {
-                    return new TsCollectionType() { ItemType = this.ResolveType(collectionItemType), Context = t };
+                    return this.CacheAndReturn(t, new TsCollectionType() { ItemType = this.ResolveType(collectionItemType), Context = t });
                 }
             }
 
-            if(typeInfo.IsGenericType) {
-                var genericType = new TsBasicType() { Context = t };
-                genericType.TypeName = typeConfiguration.Name;
-                genericType.Module = typeConfiguration.Module;
-                foreach (var arg in typeInfo.GenericTypeArguments) {
-                    genericType.GenericArguments.Add(this.ResolveType(arg));
+            if ((typeInfo.IsClass || typeInfo.IsGenericType || typeInfo.IsInterface || typeInfo.IsValueType ) && typeConfiguration != null) {
+                var resolvedType = new TsBasicType() { Context = t };
+                resolvedType.TypeName = typeConfiguration.Name;
+                resolvedType.Module = typeConfiguration.Module;
+
+                if (typeInfo.IsGenericType) {
+                    foreach (var arg in typeInfo.GenericTypeArguments) {
+                        resolvedType.GenericArguments.Add(this.ResolveType(arg));
+                    }
                 }
 
-                return genericType;
+                if (typeInfo.IsGenericTypeDefinition) {
+                    foreach (var arg in typeInfo.GenericTypeParameters) {
+                        resolvedType.GenericArguments.Add(this.ResolveType(arg));
+                    }
+                }
+
+                return this.CacheAndReturn(t, resolvedType);
             }
 
             return TsBasicType.Any;
+        }
+
+        private TsType CacheAndReturn(Type t, TsType resolved) {
+            _knownTypes[t] = resolved;
+            return resolved;
         }
     }
 }
