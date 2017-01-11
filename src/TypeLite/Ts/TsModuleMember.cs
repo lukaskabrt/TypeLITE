@@ -8,10 +8,5 @@ namespace TypeLite.Ts {
         /// Gets or sets name of the module member
         /// </summary>
         public TsType Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets name of the module
-        /// </summary>
-        public string Module { get; set; }
     }
 }

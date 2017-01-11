@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
+using TypeLite.TsConfiguration;
 
 namespace TypeLite.Ts {
     /// <summary>
@@ -15,8 +18,24 @@ namespace TypeLite.Ts {
         /// <summary>
         /// Initializes a new instance of the TsEnum class
         /// </summary>
-        public TsEnum() {
+        public TsEnum(TsBasicType typeName) {
             this.Values = new List<TsEnumValue>();
+            this.Name = typeName;
+        }
+
+        public static TsEnum CreateFrom<T>(TypeResolver typeResolver, ITsConfigurationProvider configurationProvider) {
+            var @enum = new TsEnum((TsBasicType)typeResolver.ResolveType(typeof(T)));
+
+            var enumType = typeof(T);
+            var enumTypeInfo = enumType.GetTypeInfo();
+
+            @enum.Values = enumTypeInfo.DeclaredFields
+                .Where(fieldInfo => fieldInfo.IsLiteral)
+                .Select(fieldInfo => TsEnumValue.CreateFrom(fieldInfo, configurationProvider))
+                .Where(enumValue => enumValue != null)
+                .ToList();
+
+            return @enum;
         }
     }
 }

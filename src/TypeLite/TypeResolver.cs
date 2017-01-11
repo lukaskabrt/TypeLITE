@@ -11,6 +11,8 @@ namespace TypeLite {
         private IDictionary<Type, TsType> _knownTypes;
         private ITsConfigurationProvider _configurationProvider;
 
+        protected TypeResolver() { }
+
         public TypeResolver(ITsConfigurationProvider configurationPorvider) {
             _configurationProvider = configurationPorvider;
             _knownTypes = new Dictionary<Type, TsType>();
