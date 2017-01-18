@@ -36,6 +36,18 @@ namespace TypeLite.TsConfiguration {
             };
         }
 
+        public TsMemberConfiguration GetMemberConfiguration(MemberInfo member) {
+            var attribute = member.GetCustomAttribute<TsMemberAttribute>();
+
+            if (attribute == null) {
+                return null;
+            }
+
+            return new TsMemberConfiguration() {
+                Name = attribute.Name
+            };
+        }
+
         protected virtual TsModuleMemberConfiguration ReadEnumConfiguration(Type t, TypeInfo typeInfo) {
             var attribute = typeInfo.GetCustomAttribute<TsEnumAttribute>(false);
 

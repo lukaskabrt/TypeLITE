@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using TypeLite.Tests.Models;
@@ -9,21 +10,21 @@ using TypeLite.TsConfiguration;
 using Xunit;
 
 namespace TypeLite.Tests.Ts {
-    public class TsClassTests {
-        private Mock<ITsConfigurationProvider> _configurationProviderMock;
-        private Mock<TypeResolver> _typeResolverMock;
-
-        public TsClassTests() {
-            _configurationProviderMock = new Mock<ITsConfigurationProvider>();
-            _typeResolverMock = new Mock<TypeResolver>();
-        }
-
+    public class TsClassTests : TsTests {
         [Fact]
         public void WhenInitialized_InterfacesCollectionIsEmpty() {
             var typeName = new TsBasicType() { Context = typeof(ClassWithoutAttribute), TypeName = "ClassWithoutAttribute" };
             var sut = new TsClass(typeName);
 
             Assert.Empty(sut.Interfaces);
+        }
+
+        [Fact]
+        public void WhenInitialized_PropertiesCollectionIsEmpty() {
+            var typeName = new TsBasicType() { Context = typeof(ClassWithoutAttribute), TypeName = "ClassWithoutAttribute" };
+            var sut = new TsClass(typeName);
+
+            Assert.Empty(sut.Properties);
         }
 
         [Fact]
@@ -42,6 +43,8 @@ namespace TypeLite.Tests.Ts {
 
             Assert.Same(classResolvedType, @class.Name);
         }
+
+        #region CreateFrom - BaseClass
 
         [Fact]
         public void WhenCreateFromClassWithBaseClass_BaseTypeIsSetToTypeNameReturnedByTypeResolver() {
@@ -62,6 +65,10 @@ namespace TypeLite.Tests.Ts {
 
             Assert.Null(@class.BaseType);
         }
+
+        #endregion
+
+        #region CreateFrom - Interfaces
 
         [Fact]
         public void WhenCreateFromClassWitoutInterfaces_InterfacesCollectionIsEmpty() {
@@ -101,22 +108,54 @@ namespace TypeLite.Tests.Ts {
             var classResolvedType = this.SetupTypeResolverFor<ClassWithDerivedInterface>();
             var interfaceResolvedType = this.SetupTypeResolverFor<IDerivedInterface>();
             this.SetupTypeResolverFor<IBaseInterface>();
-            
+
             var @class = TsClass.CreateFrom<ClassWithDerivedInterface>(_typeResolverMock.Object, _configurationProviderMock.Object);
 
             Assert.Equal(1, @class.Interfaces.Count);
             Assert.Contains(interfaceResolvedType, @class.Interfaces);
         }
 
-        private TsBasicType SetupTypeResolverFor<T>() {
-            var classType = typeof(T);
+        #endregion
 
-            var classResolvedType = new TsBasicType() { Context = classType, TypeName = classType.Name };
-            _typeResolverMock
-                .Setup(o => o.ResolveType(It.Is<Type>(t => t == classType)))
-                .Returns(classResolvedType);
+        #region CreateFrom - Properties
 
-            return classResolvedType;
+        [Fact]
+        public void WhenCreateFromClassWithoutProperties_PropertiesCollectionIsEmpty() {
+            this.SetupTypeResolverFor<ClassWithoutProperties>();
+            this.SetupTypeResolverFor<int>();
+            this.SetupConfigurationForMember<ClassWithoutProperties>("Field");
+            this.SetupConfigurationForMember<ClassWithoutProperties>("Constant");
+
+            var @class = TsClass.CreateFrom<ClassWithoutProperties>(_typeResolverMock.Object, _configurationProviderMock.Object);
+
+            Assert.Empty(@class.Properties);
         }
+
+        [Fact]
+        public void WhenCreateFromClassWithProperties_PropertiesCollectionContainsProperty() {
+            this.SetupTypeResolverFor<ClassWithProperty>();
+            this.SetupTypeResolverFor<int>();
+            var propertyConfiguration = this.SetupConfigurationForMember<ClassWithProperty>("Property");
+            
+            var @class = TsClass.CreateFrom<ClassWithProperty>(_typeResolverMock.Object, _configurationProviderMock.Object);
+
+            Assert.Equal(1, @class.Properties.Count);
+            Assert.Equal(propertyConfiguration.Name, @class.Properties[0].Name);
+        }
+
+        [Fact]
+        public void WhenCreateFromClassWithProperties_PropertiesCollectionDoesNotContainPropertyFromBaseClass() {
+            this.SetupTypeResolverFor<ClassWithProperty>();
+            this.SetupTypeResolverFor<BaseClassWithProperty>();
+            this.SetupTypeResolverFor<int>();
+            this.SetupConfigurationForMember<ClassWithProperty>("Property");
+            this.SetupConfigurationForMember<BaseClassWithProperty>("BaseProperty");
+
+            var @class = TsClass.CreateFrom<ClassWithProperty>(_typeResolverMock.Object, _configurationProviderMock.Object);
+
+            Assert.DoesNotContain(@class.Properties, p => p.Name == "BaseProperty");
+        }
+
+        #endregion
     }
 }

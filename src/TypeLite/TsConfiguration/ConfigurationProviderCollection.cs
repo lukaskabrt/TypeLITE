@@ -34,7 +34,13 @@ namespace TypeLite.TsConfiguration {
         }
 
         public TsEnumValueConfiguration GetEnumValueConfiguration(FieldInfo enumValue) {
-            throw new NotImplementedException();
+            var configurations = this.Providers.Select(o => o.GetEnumValueConfiguration(enumValue)).OfType<TsEnumValueConfiguration>().ToList();
+            return TsNodeConfiguration.Merge(configurations);
+        }
+
+        public TsMemberConfiguration GetMemberConfiguration(MemberInfo member) {
+            var configurations = this.Providers.Select(o => o.GetMemberConfiguration(member)).OfType<TsMemberConfiguration>().ToList();
+            return TsNodeConfiguration.Merge(configurations);
         }
     }
 }

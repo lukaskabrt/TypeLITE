@@ -21,5 +21,12 @@ namespace TypeLite.TsConfiguration {
         /// <param name="enumValue">FieldInfo representing enum value</param>
         /// <returns>the configuration read from a source or null if the source doesn't contain any configuration for the type</returns>
         TsEnumValueConfiguration GetEnumValueConfiguration(FieldInfo enumValue);
+
+        /// <summary>
+        /// Provides configuration for the specific member of a type
+        /// </summary>
+        /// <param name="member">MemberInfo representing a memebr</param>
+        /// <returns>the configuration read from a source or null if the source doesn't contain any configuration for the type</returns>
+        TsMemberConfiguration GetMemberConfiguration(MemberInfo member);
     }
 }

@@ -22,5 +22,10 @@ namespace TypeLite.TsConfiguration {
             var configurations = this.Conventions.OfType<IEnumValueConvention>().Select(o => o.Apply(enumValue)).ToList();
             return TsNodeConfiguration.Merge(configurations);
         }
+
+        public TsMemberConfiguration GetMemberConfiguration(MemberInfo member) {
+            var configurations = this.Conventions.OfType<IMemberConvention>().Select(o => o.Apply(member)).ToList();
+            return TsNodeConfiguration.Merge(configurations);
+        }
     }
 }

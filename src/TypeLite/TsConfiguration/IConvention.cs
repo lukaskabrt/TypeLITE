@@ -15,4 +15,8 @@ namespace TypeLite.TsConfiguration {
     public interface IEnumValueConvention : IConvention {
         TsEnumValueConfiguration Apply(FieldInfo enumValue);
     }
+
+    public interface IMemberConvention : IConvention {
+        TsMemberConfiguration Apply(MemberInfo member);
+    }
 }

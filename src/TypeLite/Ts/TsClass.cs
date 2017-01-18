@@ -14,9 +14,12 @@ namespace TypeLite.Ts {
 
         public IList<TsType> Interfaces { get; private set; }
 
+        public IList<TsProperty> Properties { get; private set; }
+
         public TsClass(TsBasicType typeName) {
             this.Name = typeName;
             this.Interfaces = new List<TsType>();
+            this.Properties = new List<TsProperty>();
         }
 
         public static TsClass CreateFrom<T>(TypeResolver typeResolver, ITsConfigurationProvider configurationProvider) {
@@ -35,6 +38,10 @@ namespace TypeLite.Ts {
             if(classTypeInfo.BaseType != null && classTypeInfo.BaseType != typeof(object) && classTypeInfo.BaseType != typeof(ValueType)) {
                 @class.BaseType = typeResolver.ResolveType(classTypeInfo.BaseType);
             }
+
+            @class.Properties = classTypeInfo.DeclaredProperties
+                .Select(pi => TsProperty.CreateFrom(pi, typeResolver, configurationProvider))
+                .ToList();
 
             return @class;
         }

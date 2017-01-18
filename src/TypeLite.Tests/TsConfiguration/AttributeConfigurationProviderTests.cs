@@ -57,10 +57,33 @@ namespace TypeLite.Tests.TsConfiguration {
 
             var configuration = _provider.GetEnumValueConfiguration(enumValueField);
 
-
             Assert.Null(configuration);
         }
 
+
+        #endregion
+
+        #region Member
+
+        [Fact]
+        public void WhenReadOnPropertyWithAttribute_MemberConfigurationIsReturned() {
+            var typeInfo = typeof(ClassWithPropertyAttribute).GetTypeInfo();
+            var propertyInfo = typeInfo.GetDeclaredProperty("PropertyWithAttribute");
+
+            var configuration = _provider.GetMemberConfiguration(propertyInfo);
+
+            Assert.Equal("PropertyWithAttributeName", configuration.Name);
+        }
+
+        [Fact]
+        public void WhenReadOnPropertyWithoutAttribute_NullIsReturned() {
+            var typeInfo = typeof(ClassWithPropertyAttribute).GetTypeInfo();
+            var propertyInfo = typeInfo.GetDeclaredProperty("PropertyWithoutAttribute");
+
+            var configuration = _provider.GetMemberConfiguration(propertyInfo);
+
+            Assert.Null(configuration);
+        }
 
         #endregion
     }
