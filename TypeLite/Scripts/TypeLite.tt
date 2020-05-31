@@ -1,0 +1,20 @@
+﻿<#@ template debug="false" hostspecific="True" language="C#" #>
+<#@ assembly name="$(TargetDir)TypeLite.dll" #>
+<#@ assembly name="$(TargetDir)$(TargetFileName)" #>
+
+<#@ import namespace="TypeLite" #> 
+<#@output extension=".d.ts"#>
+
+<#@include file="Manager.ttinclude"#>
+<# var manager = Manager.Create(Host, GenerationEnvironment); #>
+
+<# var ts = TypeScript.Definitions()
+		.WithReference("Enums.ts");
+#>
+
+<#= ts.Generate(TsGeneratorOutput.Properties) #>
+
+<# manager.StartNewFile("Enums.ts"); #>
+<#= ts.Generate(TsGeneratorOutput.Enums) #>
+<# manager.EndBlock(); #>
+<# manager.Process(true); #>

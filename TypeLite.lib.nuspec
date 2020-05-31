@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>TypeLite.Lib</id>
+        <version>1.8.4</version>
+        <title>TypeLITE.Library</title>
+        <authors>Lukas Kabrt and contributors</authors>
+        <licenseUrl>http://type.litesolutions.net/license</licenseUrl>
+        <projectUrl>http://type.litesolutions.net</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Generates TypeScript interfaces from .NET classes. This package contains only binaries without T4 templates.</description>
+        <summary>Generates TypeScript interfaces from .NET classes</summary>
+        <copyright>Lukas Kabrt</copyright>
+        <tags>TypeScript</tags>
+    </metadata>
+    <files>
+        <file src="TypeLite.Net\bin\Release\TypeLite.dll" target="lib\net4\TypeLite.dll" />
+        <file src="TypeLite.Net\bin\Release\TypeLite.pdb" target="lib\net4\TypeLite.pdb" />
+        <file src="TypeLite.Net4\bin\Release\TypeLite.Net4.dll" target="lib\net4\TypeLite.Net4.dll" />
+        <file src="TypeLite.Net4\bin\Release\TypeLite.Net4.pdb" target="lib\net4\TypeLite.Net4.pdb" />
+        <file src="TypeLite\bin\Release\TypeLite.dll" target="lib\portable-net4+sl4+wp8+win8\TypeLite.dll" />
+        <file src="TypeLite\bin\Release\TypeLite.pdb" target="lib\portable-net4+sl4+wp8+win8\TypeLite.pdb" />
+    </files>
+</package>

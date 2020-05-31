@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>TypeLite</id>
+        <version>1.8.4</version>
+        <title>TypeLITE</title>
+        <authors>Lukas Kabrt and contributors</authors>
+        <licenseUrl>http://type.litesolutions.net/license</licenseUrl>
+        <projectUrl>http://type.litesolutions.net</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Generates TypeScript interfaces from .NET classes</description>
+        <summary>Generates TypeScript interfaces from .NET classes. Please note in Visual Studio 2015 Update 2 TypeLITE works only if the project targets full .NET framework.</summary>
+        <copyright>Lukas Kabrt</copyright>
+        <tags>TypeScript</tags>
+    </metadata>
+    <files>
+        <file src="TypeLite\Scripts\Manager.ttinclude" target="content\portable-net4+sl4+wp8+win8\Scripts\Manager.ttinclude" />
+        <file src="TypeLite\Scripts\TypeLite.tt" target="content\portable-net4+sl4+wp8+win8\Scripts\TypeLite.tt" />
+        <file src="TypeLite\bin\Release\TypeLite.dll" target="lib\portable-net4+sl4+wp8+win8\TypeLite.dll" />
+        <file src="TypeLite\bin\Release\TypeLite.pdb" target="lib\portable-net4+sl4+wp8+win8\TypeLite.pdb" />
+        <file src="TypeLite\Scripts\Manager.ttinclude" target="content\net4\Scripts\Manager.ttinclude" />
+        <file src="TypeLite\Scripts\TypeLite.Net4.tt" target="content\net4\Scripts\TypeLite.Net4.tt" />
+        <file src="TypeLite.Net4\bin\Release\TypeLite.Net4.dll" target="lib\net4\TypeLite.Net4.dll" />
+        <file src="TypeLite.Net4\bin\Release\TypeLite.Net4.pdb" target="lib\net4\TypeLite.Net4.pdb" />
+        <file src="TypeLite.Net\bin\Release\TypeLite.dll" target="lib\net4\TypeLite.dll" />
+        <file src="TypeLite.Net\bin\Release\TypeLite.pdb" target="lib\net4\TypeLite.pdb" />
+    </files>
+</package>

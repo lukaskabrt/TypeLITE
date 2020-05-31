@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite", "TypeLite\TypeLite.csproj", "{43DCB624-F929-4572-97A3-6B14AC6AD158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Tests", "TypeLite.Tests\TypeLite.Tests.csproj", "{E2ACF34E-C051-4571-8DA9-45A010128356}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6F2E8A09-FDC7-48C9-AD7F-F101D03A6741}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Demo", "TypeLite.Demo\TypeLite.Demo.csproj", "{79D046FE-CE35-47FC-9DA6-C0E7AA2061F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Net4", "TypeLite.Net4\TypeLite.Net4.csproj", "{0AD860B2-2AAA-47CC-ACBA-F2D97BE19D66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EEE2AFA0-BFF3-433C-B72C-E9BE1598D017}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+		TypeLite.lib.nuspec = TypeLite.lib.nuspec
+		TypeLite.nuspec = TypeLite.nuspec
+		TypeLite.snk = TypeLite.snk
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Demo.Portable", "TypeLite.Demo.Portable\TypeLite.Demo.Portable.csproj", "{22D48FCE-9B05-4FAC-9966-311E0B7D61AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3FE58756-C47E-449E-A807-97B289A4B781}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Tests.AssemblyWithEnum", "TypeLite.Tests.AssemblyWithEnum\TypeLite.Tests.AssemblyWithEnum.csproj", "{7A0F2704-7880-4346-BAEC-B3872390F73B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Tests.BackboneExtension", "TypeLite.Tests.BackboneExtension\TypeLite.Tests.BackboneExtension.csproj", "{05C2DCC4-F6F4-4628-A417-0759A61597D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeLite.Net", "TypeLite.Net\TypeLite.Net.csproj", "{8FA3AA0E-7911-47D7-94A8-3206D897528C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43DCB624-F929-4572-97A3-6B14AC6AD158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DCB624-F929-4572-97A3-6B14AC6AD158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DCB624-F929-4572-97A3-6B14AC6AD158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DCB624-F929-4572-97A3-6B14AC6AD158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2ACF34E-C051-4571-8DA9-45A010128356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2ACF34E-C051-4571-8DA9-45A010128356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2ACF34E-C051-4571-8DA9-45A010128356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2ACF34E-C051-4571-8DA9-45A010128356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D046FE-CE35-47FC-9DA6-C0E7AA2061F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D046FE-CE35-47FC-9DA6-C0E7AA2061F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D046FE-CE35-47FC-9DA6-C0E7AA2061F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D046FE-CE35-47FC-9DA6-C0E7AA2061F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AD860B2-2AAA-47CC-ACBA-F2D97BE19D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AD860B2-2AAA-47CC-ACBA-F2D97BE19D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AD860B2-2AAA-47CC-ACBA-F2D97BE19D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AD860B2-2AAA-47CC-ACBA-F2D97BE19D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D48FCE-9B05-4FAC-9966-311E0B7D61AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D48FCE-9B05-4FAC-9966-311E0B7D61AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D48FCE-9B05-4FAC-9966-311E0B7D61AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D48FCE-9B05-4FAC-9966-311E0B7D61AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0F2704-7880-4346-BAEC-B3872390F73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0F2704-7880-4346-BAEC-B3872390F73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0F2704-7880-4346-BAEC-B3872390F73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0F2704-7880-4346-BAEC-B3872390F73B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C2DCC4-F6F4-4628-A417-0759A61597D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C2DCC4-F6F4-4628-A417-0759A61597D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C2DCC4-F6F4-4628-A417-0759A61597D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C2DCC4-F6F4-4628-A417-0759A61597D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA3AA0E-7911-47D7-94A8-3206D897528C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA3AA0E-7911-47D7-94A8-3206D897528C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA3AA0E-7911-47D7-94A8-3206D897528C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA3AA0E-7911-47D7-94A8-3206D897528C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A0F2704-7880-4346-BAEC-B3872390F73B} = {3FE58756-C47E-449E-A807-97B289A4B781}
+	EndGlobalSection
+EndGlobal
